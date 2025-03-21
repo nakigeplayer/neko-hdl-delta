@@ -79,7 +79,7 @@ def tag(bot, accid, msg, code):
     addr = cli.get_address(bot.rpc, accid)
     message = ""
     if data["title_h1"]:
-        message += "**"+.join(data["title_h1"])+"**\n\n"
+        message += "**" + "**".join(data["title_h1"]) + "**\n\n"
     #if data["title_h2"]:
         #message += "Título Original :\n" + "\n".join(data["title_h2"]) + "\n\n"
     if data["gallery_id"]:
