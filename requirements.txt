@@ -1,0 +1,4 @@
+requests
+beautifulsoup4
+py7zr
+deltabot_cli
