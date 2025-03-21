@@ -79,21 +79,21 @@ def tag(bot, accid, msg, code):
     addr = cli.get_address(bot.rpc, accid)
     message = ""
     if data["title_h1"]:
-        message += "Título:\n" + "\n".join(data["title_h1"]) + "\n\n"
-    if data["title_h2"]:
-        message += "Título Original :\n" + "\n".join(data["title_h2"]) + "\n\n"
+        message += f"**{data["title_h1"]}**\n\n"
+    #if data["title_h2"]:
+        #message += "Título Original :\n" + "\n".join(data["title_h2"]) + "\n\n"
     if data["gallery_id"]:
         gallery_id = data["gallery_id"]
-        message += f"ID de Galería:\n[{gallery_id}](mailto:{addr}?body=%2Fnh%20{code})\n\n"
+        message += f"[🆔{gallery_id}](mailto:{addr}?body=%2Fnh%20{code})\n"
     if data["tags"]:
-        message += "Etiquetas:\n"
+        message += "🏷️Etiquetas:\n"
         for category, tags in data["tags"].items():
             message += f"{category.capitalize()}:\n"
             for tag in tags:
                 tag_encoded = tag.replace(" ", "%20")
                 message += f"[{tag}](mailto:{addr}?body=%2Ftagnh%20{tag_encoded}), "
     if data["extra"]:
-        message += "\nInformación Extra:\n"
+        message += "\nℹ️Información Extra:\n"
         for key, value in data["extra"].items():
             message += f"{key.capitalize()}: {value}\n"
     return message.strip()
@@ -163,26 +163,26 @@ def tag3h(bot, accid, msg, code):
     personajes = "\n".join(resultados.get('Characters', []))
     artistas = "\n".join(resultados.get('Artists', []))
     grupos = "\n".join(resultados.get('Groups', []))
-    tags = "\n".join(f"[{tag}](mailto:{addr}?body=%2Ftag3h%20{tag})" for tag in resultados.get('Tags', []))
+    tags = " ".join(f"#[{tag}](mailto:{addr}?body=%2Ftag3h%20{tag})" for tag in resultados.get('Tags', []))
     gallery_id_text = gallery_id_text.replace("d", "")
     gallery_id_text_temp = f"[{gallery_id_text}](mailto:{addr}?body=%2F3h%20{gallery_id_text})"
     gallery_id_text = gallery_id_text_temp
     info = f"""
-Título: {title_text}
-ID de Galería: {gallery_id_text}
-Series:
+**{title_text}**
+🆔{gallery_id_text}
+🎥Series:
 {series}
-Personajes:
+👥Personajes:
 {personajes}
-Artistas:
+🎨Artistas:
 {artistas}
-Grupos:
+🫂Grupos:
 {grupos}
-Tags:
+🏷️Tags:
 {tags}
-Páginas:
+📃Páginas:
 {paginas}
-"""
+""".strip()
     return info
 def compressfile(file_path, part_size):
     parts = []
@@ -457,8 +457,8 @@ def scan_web(bot, accid, event):
                     title_h1 = title_tag.get_text(strip=True) if title_tag else "Sin título"
                     addr = cli.get_address(bot.rpc, accid)
                     results.append(f"{title_h1} = [{gallery_id}](mailto:{addr}?body=%2Finfonh%20{gallery_id})\n\n")
-        for i in range(0, len(results), 10):
-            chunk = results[i:i + 10]  
+        for i in range(0, len(results), 13):
+            chunk = results[i:i + 13]  
             bot.rpc.send_msg(
                 accid,
                 msg.chat_id,
@@ -519,8 +519,8 @@ def scan_web(bot, accid, event):
                     title_h1 = title_tag.get_text(strip=True) if title_tag else "Sin título"
                     addr = cli.get_address(bot.rpc, accid)
                     results.append(f"{title_h1} = [{gallery_id}](mailto:{addr}?body=%2Finfonh%20{gallery_id})\n\n")
-        for i in range(0, len(results), 10):
-            chunk = results[i:i + 10]  
+        for i in range(0, len(results), 13):
+            chunk = results[i:i + 13]  
             bot.rpc.send_msg(
                 accid,
                 msg.chat_id,
@@ -617,7 +617,7 @@ Los comandos hacen lo mismo y solo se diferencian en su terminación en dependen
 Neko es un proyecto iniciado en telegram por [@nakigeplayer](https://t.me/nakigeplayer)(en Delta [ERNP](mailto:ernp@nauta.cu))
 
 Código en [Github](https://github.com/nakigeplayer/neko-hdl-delta)
-"""
+""".strip()
     url = "https://cdn.imgchest.com/files/739cxnloag7.png"
     response = requests.get(url)
     if response.status_code == 200:
